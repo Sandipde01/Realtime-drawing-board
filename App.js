@@ -90,7 +90,7 @@ const drawing = (e) => {
     // to paint white color on to the existing canvas content else set the stroke color to selected color
     ctx.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor;
     ctx.lineTo(e.offsetX, e.offsetY); // creating line according to the mouse pointer
-    ctx.stroke();
+    ctx.stroke(); // drawing/filling line with color
   } else if (selectedTool === "rectangle") {
     drawRect(e);
   } else if (selectedTool === "circle") {
@@ -118,7 +118,7 @@ colorBtns.forEach((btn) => {
     // removing selected class from the previous option and adding on current clicked option
     document.querySelector(".options .selected").classList.remove("selected");
     btn.classList.add("selected");
-
+    // passing selected btn background color as selectedColor value
     selectedColor = window
       .getComputedStyle(btn)
       .getPropertyValue("background-color");
@@ -126,20 +126,21 @@ colorBtns.forEach((btn) => {
 });
 
 colorPicker.addEventListener("change", () => {
+  // passing picked color value from color picker to last color btn background
   colorPicker.parentElement.style.background = colorPicker.value;
   colorPicker.parentElement.click();
 });
 
 clearCanvas.addEventListener("click", () => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // clearing whole canvas
   setCanvasBackground();
 });
 
 saveImg.addEventListener("click", () => {
-  const link = document.createElement("a");
-  link.download = `${Date.now()}.jpg`;
-  link.href = canvas.toDataURL();
-  link.click();
+  const link = document.createElement("a"); // creating <a> element
+  link.download = `${Date.now()}.jpg`; // passing current date as link download value
+  link.href = canvas.toDataURL(); // passing canvasData as link href value
+  link.click(); // clicking link to download image
 });
 
 canvas.addEventListener("mousedown", startDraw);
